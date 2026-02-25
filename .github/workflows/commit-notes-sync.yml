@@ -1,0 +1,58 @@
+name: Sync Commit Notes from All Repos
+
+on:
+  schedule:
+    - cron: '*/30 * * * *'
+  workflow_dispatch:
+    inputs:
+      repo_filter:
+        description: 'Single repo name to sync (blank = all repos)'
+        required: false
+        default: ''
+      backfill:
+        description: 'Backfill full history (true/false)'
+        required: false
+        default: 'false'
+
+permissions:
+  contents: write
+
+jobs:
+  sync-commits:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout vault
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.VAULT_PAT }}
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Sync commit notes
+        env:
+          GH_TOKEN: ${{ secrets.VAULT_PAT }}
+          REPO_FILTER: ${{ github.event.inputs.repo_filter || '' }}
+          BACKFILL: ${{ github.event.inputs.backfill || 'false' }}
+        run: python .github/scripts/sync_commit_notes.py
+
+      - name: Commit and push
+        run: |
+          git config user.name "factorylm-bot"
+          git config user.email "bot@factorylm.com"
+          git add 10_Commit_Notes/
+          if git diff --cached --quiet; then
+            echo "No new commit notes to push"
+            exit 0
+          fi
+          CHANGED=$(git diff --cached --name-only | wc -l)
+          git commit -m "sync: update commit notes (${CHANGED} files changed)
+
+          Automated commit notes sync from all Mikecranesync repos.
+
+          Co-Authored-By: factorylm-bot <bot@factorylm.com>"
+          git pull --rebase origin main || true
+          git push origin main
