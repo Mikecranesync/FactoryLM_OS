@@ -1,0 +1,116 @@
+# ──────────────────────────────────────────────────────────
+# TEMPLATE: Copy this file to any Mikecranesync repo at:
+#   .github/workflows/commit-notes.yml
+#
+# Requires VAULT_PAT secret with write access to FactoryLM_OS.
+# This provides instant push-triggered notes (vs 30-min polling).
+# The central poller in FactoryLM_OS handles repos without this.
+# ──────────────────────────────────────────────────────────
+name: Push Commit Notes to Vault
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  commit-notes:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Generate and push commit notes
+        env:
+          GH_TOKEN: ${{ secrets.VAULT_PAT }}
+          REPO_NAME: ${{ github.event.repository.name }}
+          BEFORE_SHA: ${{ github.event.before }}
+          AFTER_SHA: ${{ github.event.after }}
+        run: |
+          set -euo pipefail
+
+          OWNER="Mikecranesync"
+          VAULT_REPO="FactoryLM_OS"
+
+          # Clone vault (shallow)
+          git clone --depth 1 "https://x-access-token:${GH_TOKEN}@github.com/${OWNER}/${VAULT_REPO}.git" vault
+          cd vault
+
+          NOTES_DIR="10_Commit_Notes"
+          mkdir -p "$NOTES_DIR"
+
+          # Fetch commits in this push via API
+          COMMITS=$(curl -s -H "Authorization: token $GH_TOKEN" \
+            "https://api.github.com/repos/${OWNER}/${REPO_NAME}/compare/${BEFORE_SHA}...${AFTER_SHA}" \
+            | python3 -c "
+          import json, sys
+          data = json.load(sys.stdin)
+          for c in data.get('commits', []):
+              sha = c['sha'][:7]
+              date = c['commit']['committer']['date'][:10]
+              time = c['commit']['committer']['date'][11:16]
+              msg = c['commit']['message'].split(chr(10))[0][:120].replace('|', '\\\\|')
+              author = c['commit']['author']['name'].replace('|', '\\\\|')
+              print(f'{sha}|{date}|{time}|{msg}|{author}')
+          ")
+
+          [ -z "$COMMITS" ] && echo "No commits found" && exit 0
+
+          # Group by date
+          echo "$COMMITS" | while IFS='|' read -r SHA DATE TIME MSG AUTHOR; do
+            FILE="${NOTES_DIR}/${DATE}.md"
+
+            # Skip if already recorded
+            if [ -f "$FILE" ] && grep -q "$SHA" "$FILE"; then
+              continue
+            fi
+
+            # Create file if needed
+            if [ ! -f "$FILE" ]; then
+              cat > "$FILE" << EOF
+          ---
+          title: "Commit Notes - ${DATE}"
+          date: ${DATE}
+          tags: [type/commit-note, project/${REPO_NAME}]
+          status: active
+          ---
+
+          # Commit Notes - ${DATE}
+          EOF
+            fi
+
+            # Add project tag if missing
+            if ! grep -q "project/${REPO_NAME}" "$FILE"; then
+              sed -i "s|\(tags: \[.*\)\]|\1, project/${REPO_NAME}]|" "$FILE"
+            fi
+
+            # Add section header if missing for this push
+            HEADER="## ${REPO_NAME} — Push at ${TIME} UTC"
+            if ! grep -qF "$HEADER" "$FILE"; then
+              SHORT_SHA="${AFTER_SHA:0:7}"
+              cat >> "$FILE" << EOF
+
+          ${HEADER}
+
+          **Trigger:** \`${SHORT_SHA}\` on \`main\`
+
+          | Hash | Message | Author |
+          |------|---------|--------|
+          EOF
+            fi
+
+            echo "| \`${SHA}\` | ${MSG} | ${AUTHOR} |" >> "$FILE"
+          done
+
+          # Commit and push
+          git config user.name "factorylm-bot"
+          git config user.email "bot@factorylm.com"
+          git add "$NOTES_DIR/"
+
+          if git diff --cached --quiet; then
+            echo "No changes to commit"
+            exit 0
+          fi
+
+          git commit -m "sync: commit notes from ${REPO_NAME}"
+          git pull --rebase origin main || true
+          git push origin main
