@@ -1,11 +1,11 @@
 ---
-title: "{{date:YYYY-MM-DD}}"
-date: "{{date:YYYY-MM-DD}}"
+title: "<% tp.date.now("YYYY-MM-DD") %>"
+date: "<% tp.date.now("YYYY-MM-DD") %>"
 tags: [type/daily]
 status: active
 ---
 
-# {{date:YYYY-MM-DD}} — Daily Journal
+# <% tp.date.now("YYYY-MM-DD") %> — <% tp.date.now("dddd") %> — Daily Journal
 
 ## Focus
 > What's the #1 thing to accomplish today?
@@ -41,4 +41,4 @@ status: active
 ## Links
 > Related notes, incidents, project updates from today
 
--
+- <% await tp.file.exists("commit-notes/" + tp.date.now("YYYY-MM-DD") + ".md") ? "[[commit-notes/" + tp.date.now("YYYY-MM-DD") + "]]" : "" %>
