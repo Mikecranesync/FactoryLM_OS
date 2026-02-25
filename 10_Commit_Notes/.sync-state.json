@@ -1,0 +1,42 @@
+{
+  "FactoryLM_OS": {
+    "last_sha": "eff383168835a2d2fb573cc1e67e3b482c2ce0b1",
+    "last_sync": "2026-02-25T08:43:15Z"
+  },
+  "IndustrialSkillsHub": {
+    "last_sha": "c6cfac380f2463f5585dd2c0b7e5f2ee710d892c",
+    "last_sync": "2026-02-25T08:43:16Z"
+  },
+  "JarvisTLaptop": {
+    "last_sha": "e9a591515c798c6e482926f3755042e51493ec50",
+    "last_sync": "2026-02-25T08:43:17Z"
+  },
+  "default": {
+    "last_sha": "c56dad1389e5a446c82006990e5c29927a31a327",
+    "last_sync": "2026-02-25T08:43:14Z"
+  },
+  "factorylm-cmms": {
+    "last_sha": "a7063ec081d7b508670852e3b2d8a3effd8e4c4a",
+    "last_sync": "2026-02-25T08:43:14Z"
+  },
+  "factorylm-conveyor-demo": {
+    "last_sha": "08a5b5b2dccb2ffe1eaea61aff5ae2e439fa8a59",
+    "last_sync": "2026-02-25T08:43:14Z"
+  },
+  "factorylm-cosmos-cookoff": {
+    "last_sha": "6d3ade2850d11d9999caede55cfac83afe34af67",
+    "last_sync": "2026-02-25T08:43:15Z"
+  },
+  "jarvis-workspace": {
+    "last_sha": "207f91bba9572198d26fe9c98cc5785e946d295f",
+    "last_sync": "2026-02-25T08:43:16Z"
+  },
+  "mikecranesync": {
+    "last_sha": "3d0d1857677fae4e83409a2c76f477ab98b8d75a",
+    "last_sync": "2026-02-25T08:43:17Z"
+  },
+  "openclaw": {
+    "last_sha": "b6a212682a00c2a5cf71c0349cb5efa24178c256",
+    "last_sync": "2026-02-25T08:43:18Z"
+  }
+}
