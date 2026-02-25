@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(done)",
+      "Bash(which gh && gh auth status 2>&1)",
+      "Bash(git init 2>&1)",
+      "Bash(git branch -m main)",
+      "Bash(git add .gitignore CLAUDE_TONY.md _Templates/ .obsidian/ .claude/ 00_Global/ 01_Daily/ 02_Weekly/ 03_Projects/ 04_Agents/ 05_Infrastructure/ 06_Incidents/ 07_Research/ 08_Runbooks/ 09_Archive/ 10_Commit_Notes/)"
+    ]
+  }
+}
