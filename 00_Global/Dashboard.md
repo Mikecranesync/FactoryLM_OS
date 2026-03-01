@@ -11,8 +11,8 @@ status: active
 
 | Date | Event | Status |
 |------|-------|--------|
-| 2026-02-27 | Working demo ready | active |
-| 2026-03-05 | Cosmos Cookoff + Jason Calacanis podcast | upcoming |
+| 2026-02-27 | Working demo ready | done |
+| 2026-03-05 | Cosmos Cookoff + Jason Calacanis podcast | active |
 
 ---
 
@@ -62,11 +62,17 @@ LIMIT 20
 
 ## Agent Status
 
-| Agent | Role | Profile |
-|-------|------|---------|
-| [[04_Agents/Tony_Macaroni/Tony_Macaroni\|Tony_Macaroni]] | Resident assistant | Active |
-| [[04_Agents/Hammurabi/Hammurabi\|Hammurabi]] | Quality judge | In development |
-| [[04_Agents/Herodotus/Herodotus\|Herodotus]] | Knowledge recorder | In development |
+| Agent | Role | Host | Status |
+|-------|------|------|--------|
+| [[04_Agents/Tony_Macaroni/Tony_Macaroni\|Tony Macaroni]] | Boss / coordinator | Mac Mini | Active |
+| [[04_Agents/Claude_Code/Claude_Code\|Claude Code]] | System agent / orchestration | Mac Mini | Active |
+| [[04_Agents/Ultron/Ultron\|Ultron]] | Cloud reasoning / research | DO VPS | Active |
+| [[04_Agents/Jarvis_Local/Jarvis_Local\|Jarvis Local]] | PLC / Modbus edge | Travel Laptop | Active |
+| [[04_Agents/Hetzner/Hetzner\|Hetzner]] | Batch compute | Hetzner | Active |
+| [[04_Agents/FRIDAY/FRIDAY\|FRIDAY]] | Dev companion | Standalone | Active |
+| [[04_Agents/Hammurabi/Hammurabi\|Hammurabi]] | Quality judge | TBD | In development |
+| [[04_Agents/Herodotus/Herodotus\|Herodotus]] | Knowledge recorder | TBD | In development |
+| [[04_Agents/FactoryLM_Bot/FactoryLM_Bot\|factorylm-bot]] | Commit sync | GitHub Actions | Active |
 
 ---
 
@@ -74,10 +80,12 @@ LIMIT 20
 
 | Component | Location |
 |-----------|----------|
-| PLCs | [[05_Infrastructure/PLCs/]] |
-| Gateway (Pi) | [[05_Infrastructure/Gateway/]] |
-| Servers | [[05_Infrastructure/Servers/]] |
-| Networks | [[05_Infrastructure/Networks/]] |
+| Current State | [[05_Infrastructure/Current_State\|Current State]] |
+| Agent Connectivity | [[05_Infrastructure/Agent_Connectivity\|Connectivity Matrix]] |
+| PLCs | [[05_Infrastructure/PLCs/Micro820\|Micro820 PLC]] |
+| Gateway | [[05_Infrastructure/Gateway/OpenClaw_Runtime\|OpenClaw Runtime]] |
+| Servers | [[05_Infrastructure/Servers/Mac_Mini\|Mac Mini]] |
+| Networks | [[05_Infrastructure/Networks/Tailscale\|Tailscale Network]] |
 
 ---
 

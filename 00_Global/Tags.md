@@ -35,6 +35,13 @@ All tags used in this vault. **Do not invent new tags** — add them here first,
 | `project/tony-macaroni` | Tony_Macaroni assistant |
 | `project/clawdbot` | Clawdbot project |
 | `project/discord-adapter` | Discord adapter project |
+| `project/discord-layer` | Discord Layer relay + bot |
+| `project/antfarm` | Antfarm CLI workflow engine |
+| `project/openclaw` | OpenClaw gateway (replaced clawdbot) |
+| `project/atlas-cmms` | Atlas CMMS maintenance system |
+| `project/cosmos` | Cosmos demo pipeline + video |
+| `project/gist-watch` | Gist watch MCP + poller |
+| `project/phone-controller` | Phone controller for Mac Mini dispatch |
 
 ---
 
@@ -46,6 +53,12 @@ All tags used in this vault. **Do not invent new tags** — add them here first,
 | `agent/tony` | Tony_Macaroni — resident assistant |
 | `agent/hammurabi` | Hammurabi — quality judge |
 | `agent/herodotus` | Herodotus — knowledge recorder |
+| `agent/ultron` | Ultron — cloud reasoning on DO VPS |
+| `agent/jarvis` | Jarvis Local — PLC/Modbus edge compute |
+| `agent/hetzner` | Hetzner — batch compute + large models |
+| `agent/claude-code` | Claude Code (Macaroni) — Mac Mini CLI agent |
+| `agent/friday` | FRIDAY — dev companion |
+| `agent/factorylm-bot` | factorylm-bot — GitHub Actions commit sync |
 
 ---
 

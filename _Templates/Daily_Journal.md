@@ -41,4 +41,4 @@ status: active
 ## Links
 > Related notes, incidents, project updates from today
 
-- <% await tp.file.exists("commit-notes/" + tp.date.now("YYYY-MM-DD") + ".md") ? "[[commit-notes/" + tp.date.now("YYYY-MM-DD") + "]]" : "" %>
+- [[10_Commit_Notes/<% tp.date.now("YYYY-MM-DD") %>|Commit Notes]]
