@@ -26,6 +26,10 @@ BACKFILL = os.environ.get("BACKFILL", "false") == "true"
 NOTES_DIR = "10_Commit_Notes"
 STATE_FILE = os.path.join(NOTES_DIR, ".sync-state.json")
 
+# Noise filter: skip bot sync commits that add no real information
+NOISE_AUTHORS = {"factorylm-bot", "github-actions[bot]"}
+NOISE_PREFIXES = ("sync: update commit notes", "sync: update commit note")
+
 
 def api_get(url):
     """Make authenticated GitHub API request."""
@@ -223,6 +227,11 @@ def main():
         newest_sha = commits[0][0]
 
         for sha, date, time_str, msg, author in commits:
+            # Skip noise: bot sync commits that just update commit note files
+            if author in NOISE_AUTHORS and any(
+                msg.lower().startswith(p) for p in NOISE_PREFIXES
+            ):
+                continue
             filepath = os.path.join(NOTES_DIR, f"{date}.md")
             if append_commit(filepath, repo, date, time_str, sha, msg, author):
                 total_new += 1
