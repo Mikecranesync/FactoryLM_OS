@@ -1,7 +1,7 @@
 {
   "FactoryLM_OS": {
-    "last_sha": "633e51b3ba1c8a8641de50ccb77714a3f4cc5921",
-    "last_sync": "2026-03-02T19:09:10Z"
+    "last_sha": "7b21a7d08e5a60f6d46dedd791f77145f042ef98",
+    "last_sync": "2026-03-02T19:54:08Z"
   },
   "IndustrialSkillsHub": {
     "last_sha": "c6cfac380f2463f5585dd2c0b7e5f2ee710d892c",
@@ -38,5 +38,9 @@
   "openclaw": {
     "last_sha": "b6a212682a00c2a5cf71c0349cb5efa24178c256",
     "last_sync": "2026-02-25T08:43:18Z"
+  },
+  "pi-factory-cosmos": {
+    "last_sha": "91a4b8fe043ab694297573ba665f903d809ea287",
+    "last_sync": "2026-03-02T19:54:10Z"
   }
 }
