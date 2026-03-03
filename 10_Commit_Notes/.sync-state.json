@@ -1,46 +1,46 @@
 {
   "FactoryLM_OS": {
-    "last_sha": "4c48ea2fc3a935bbf65c1d963ea6037e228f38db",
-    "last_sync": "2026-03-03T07:12:58Z"
+    "last_sha": "9d83020f334b957d2cf6ee61f76eb93ad0525a9c",
+    "last_sync": "2026-03-03T07:58:25Z"
   },
   "IndustrialSkillsHub": {
-    "last_sha": "c6cfac380f2463f5585dd2c0b7e5f2ee710d892c",
-    "last_sync": "2026-02-25T08:43:16Z"
+    "last_sha": "bf98693285aa5786e865eb53c75f442b498afc1f",
+    "last_sync": "2026-03-03T07:58:25Z"
   },
   "JarvisTLaptop": {
-    "last_sha": "e9a591515c798c6e482926f3755042e51493ec50",
-    "last_sync": "2026-02-25T08:43:17Z"
+    "last_sha": "196dea675fcc904f3a4084327c76292321abdd85",
+    "last_sync": "2026-03-03T07:58:26Z"
   },
   "default": {
-    "last_sha": "c56dad1389e5a446c82006990e5c29927a31a327",
-    "last_sync": "2026-02-25T08:43:14Z"
+    "last_sha": "282e1a50f65484e6cf1024f8620563e64483bdcc",
+    "last_sync": "2026-03-03T07:58:23Z"
   },
   "factorylm-cmms": {
-    "last_sha": "a7063ec081d7b508670852e3b2d8a3effd8e4c4a",
-    "last_sync": "2026-02-25T08:43:14Z"
+    "last_sha": "76128f0d3730744bb0ebf4ec252c01b9af8a8f2a",
+    "last_sync": "2026-03-03T07:58:23Z"
   },
   "factorylm-conveyor-demo": {
-    "last_sha": "08a5b5b2dccb2ffe1eaea61aff5ae2e439fa8a59",
-    "last_sync": "2026-02-25T08:43:14Z"
+    "last_sha": "31561f0c1331b28f05013f95f6dd512f9df7a776",
+    "last_sync": "2026-03-03T07:58:24Z"
   },
   "factorylm-cosmos-cookoff": {
-    "last_sha": "96823fdbf2669e00eed87a762c1011ae1c56bfd1",
-    "last_sync": "2026-03-03T03:42:58Z"
+    "last_sha": "d0605977739b681ead715cdd87bdbd8395de4c71",
+    "last_sync": "2026-03-03T07:58:24Z"
   },
   "jarvis-workspace": {
-    "last_sha": "207f91bba9572198d26fe9c98cc5785e946d295f",
-    "last_sync": "2026-02-25T08:43:16Z"
+    "last_sha": "de2d291adcb36b548a73d61ad23a25763f16bc45",
+    "last_sync": "2026-03-03T07:58:26Z"
   },
   "mikecranesync": {
-    "last_sha": "126306451db8c8ab862e062b9bdec61e4cc4053b",
-    "last_sync": "2026-03-03T07:12:59Z"
+    "last_sha": "2b608bb1d308fec24d0c8e639fa40d2bb01138c4",
+    "last_sync": "2026-03-03T07:58:26Z"
   },
   "openclaw": {
     "last_sha": "b6a212682a00c2a5cf71c0349cb5efa24178c256",
     "last_sync": "2026-02-25T08:43:18Z"
   },
   "pi-factory-cosmos": {
-    "last_sha": "b14d5a36fb84ad0f26ff5053102dd4a3ad751e78",
-    "last_sync": "2026-03-03T03:43:00Z"
+    "last_sha": "d46607f870ea117acda24646a2df6ba769a14274",
+    "last_sync": "2026-03-03T07:58:27Z"
   }
 }
