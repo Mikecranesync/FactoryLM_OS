@@ -1,7 +1,7 @@
 {
   "FactoryLM_OS": {
-    "last_sha": "070803f1132722fa22e44f46123f242f76d3ecbb",
-    "last_sync": "2026-03-03T08:37:09Z"
+    "last_sha": "1c0367727adf66ab6ae91dd08ad2e457c1c9cfdc",
+    "last_sync": "2026-03-03T09:30:29Z"
   },
   "IndustrialSkillsHub": {
     "last_sha": "bf98693285aa5786e865eb53c75f442b498afc1f",
@@ -40,7 +40,7 @@
     "last_sync": "2026-02-25T08:43:18Z"
   },
   "pi-factory-cosmos": {
-    "last_sha": "d46607f870ea117acda24646a2df6ba769a14274",
-    "last_sync": "2026-03-03T07:58:27Z"
+    "last_sha": "72e7592747ca2532953aeca33aee08b4cc63bfa0",
+    "last_sync": "2026-03-03T09:30:30Z"
   }
 }
