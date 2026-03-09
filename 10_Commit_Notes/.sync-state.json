@@ -1,7 +1,7 @@
 {
   "FactoryLM_OS": {
-    "last_sha": "0e334e61b779de7d8d9e677dbf50d0e9f8ee5507",
-    "last_sync": "2026-03-09T01:04:22Z"
+    "last_sha": "4bd92ce082f8ff758ee0d927feceffde025f18be",
+    "last_sync": "2026-03-09T03:43:53Z"
   },
   "IndustrialSkillsHub": {
     "last_sha": "bf98693285aa5786e865eb53c75f442b498afc1f",
@@ -16,8 +16,8 @@
     "last_sync": "2026-03-03T07:58:23Z"
   },
   "factorylm": {
-    "last_sha": "37c8f7149551089489339d9f66f4deadd7ca7871",
-    "last_sync": "2026-03-08T19:41:40Z"
+    "last_sha": "a8f1809444d2939b57de26802b7cbbb6b5551e01",
+    "last_sync": "2026-03-09T03:43:52Z"
   },
   "factorylm-cmms": {
     "last_sha": "76128f0d3730744bb0ebf4ec252c01b9af8a8f2a",
