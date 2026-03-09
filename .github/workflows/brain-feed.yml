@@ -6,33 +6,62 @@ on:
 jobs:
   brain-ingest:
     runs-on: ubuntu-latest
+    continue-on-error: true  # NEVER block pushes for brain ingestion
     steps:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 2
 
-      - name: Send commit to Open Brain
+      - name: Build payload
+        id: payload
+        env:
+          COMMIT_MSG: ${{ github.event.head_commit.message }}
+          COMMIT_AUTHOR: ${{ github.event.head_commit.author.name }}
+          COMMIT_REPO: ${{ github.repository }}
+          COMMIT_BRANCH: ${{ github.ref_name }}
+          COMMIT_SHA: ${{ github.sha }}
+        run: |
+          FILES=$(git diff-tree --no-commit-id -r --name-only HEAD | tr '\n' ', ')
+          FIRST_LINE=$(echo "$COMMIT_MSG" | head -1)
+          mkdir -p /tmp/brain-dlq
+          jq -n \
+            --arg content "Git commit in $COMMIT_REPO on $COMMIT_BRANCH by $COMMIT_AUTHOR: $FIRST_LINE | Changed files: $FILES" \
+            --arg sha "$COMMIT_SHA" \
+            --arg repo "$COMMIT_REPO" \
+            --arg branch "$COMMIT_BRANCH" \
+            --arg author "$COMMIT_AUTHOR" \
+            --arg files "$FILES" \
+            '{
+              content: $content,
+              source: "github_commit",
+              tags: ["git", "commit", $repo],
+              metadata: { sha: $sha, repo: $repo, branch: $branch, author: $author, files: $files }
+            }' > /tmp/brain-dlq/payload.json
+
+      - name: Send to Open Brain
+        id: send
+        if: ${{ secrets.BRAIN_INGEST_URL != '' }}
         env:
           BRAIN_INGEST_URL: ${{ secrets.BRAIN_INGEST_URL }}
         run: |
-          REPO="${{ github.repository }}"
-          BRANCH="${{ github.ref_name }}"
-          MSG="${{ github.event.head_commit.message }}"
-          AUTHOR="${{ github.event.head_commit.author.name }}"
-          SHA="${{ github.sha }}"
-          FILES=$(git diff-tree --no-commit-id -r --name-only HEAD | tr '\n' ', ')
-
-          curl -s -X POST "$BRAIN_INGEST_URL" \
+          HTTP_CODE=$(curl -s -o /tmp/brain-dlq/response.txt -w '%{http_code}' \
+            --connect-timeout 5 --max-time 10 \
+            -X POST "$BRAIN_INGEST_URL" \
             -H "Content-Type: application/json" \
-            -d "{
-              \"content\": \"Git commit in $REPO on $BRANCH by $AUTHOR: $MSG | Changed files: $FILES\",
-              \"source\": \"github_commit\",
-              \"tags\": [\"git\", \"commit\", \"$REPO\"],
-              \"metadata\": {
-                \"sha\": \"$SHA\",
-                \"repo\": \"$REPO\",
-                \"branch\": \"$BRANCH\",
-                \"author\": \"$AUTHOR\",
-                \"files\": \"$FILES\"
-              }
-            }"
+            -d @/tmp/brain-dlq/payload.json || echo "000")
+          echo "http_code=$HTTP_CODE" >> "$GITHUB_OUTPUT"
+          if [ "$HTTP_CODE" = "000" ]; then
+            echo "::warning::Brain ingest unreachable (timeout/network error)"
+          elif [ "$HTTP_CODE" -ge 400 ] 2>/dev/null; then
+            echo "::warning::Brain ingest returned HTTP $HTTP_CODE"
+          else
+            echo "Brain ingest OK (HTTP $HTTP_CODE)"
+          fi
+
+      - name: Save dead letter on failure
+        if: always() && (steps.send.outputs.http_code == '000' || steps.send.outcome == 'skipped')
+        uses: actions/upload-artifact@v4
+        with:
+          name: brain-dlq-${{ github.sha }}
+          path: /tmp/brain-dlq/
+          retention-days: 7
