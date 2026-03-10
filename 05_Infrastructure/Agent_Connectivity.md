@@ -15,32 +15,22 @@ status: active
 
 | Agent | Vault Read | Vault Write | Telegram | Discord | GitHub | PLC |
 |-------|-----------|-------------|----------|---------|--------|-----|
-| [[04_Agents/Tony_Macaroni/Tony_Macaroni\|Tony]] | obsidian_search/read/list | No (policy) | DM (Mike only) | @FactoryLM | No | Via Jarvis |
-| [[04_Agents/Claude_Code/Claude_Code\|Claude Code]] | MCP (port 27124) | No (policy) | No | No | `gh` CLI | No |
-| [[04_Agents/Ultron/Ultron\|Ultron]] | No | No | @UltronVPS_bot | #ultron | Unknown | No |
-| [[04_Agents/Jarvis_Local/Jarvis_Local\|Jarvis]] | No | No | @TravelLaptop_bot | #jarvis | No | Modbus TCP |
-| [[04_Agents/Hetzner/Hetzner\|Hetzner]] | No | No | @UltronVPS_bot | #hetzner | Unknown | No |
-| [[04_Agents/FactoryLM_Bot/FactoryLM_Bot\|factorylm-bot]] | No | Git push | No | No | Full | No |
+| [[04_Agents/Tony_Macaroni/Tony_Macaroni\|Tony]] | obsidian_search/read/list | 01_Daily, 02_Weekly, 06_Incidents (REST API) | DM (Mike only) | @FactoryLM | No | Via Jarvis |
+| [[04_Agents/Claude_Code/Claude_Code\|Claude Code]] | MCP + filesystem | Full vault 01-09 (filesystem + MCP) | No | No | `gh` CLI | No |
+| [[04_Agents/Ultron/Ultron\|Ultron]] | REST API via Tailscale Serve | No (request via Tony) | @UltronVPS_bot | #ultron | Unknown | No |
+| [[04_Agents/Jarvis_Local/Jarvis_Local\|Jarvis]] | REST API via Tailscale Serve | No (request via Tony) | @TravelLaptop_bot | #jarvis | No | Modbus TCP |
+| [[04_Agents/Hetzner/Hetzner\|Hetzner]] | REST API via Tailscale Serve | No (request via Tony) | @UltronVPS_bot | #hetzner | Unknown | No |
+| [[04_Agents/FactoryLM_Bot/FactoryLM_Bot\|factorylm-bot]] | No | 10_Commit_Notes (Git push) | No | No | Full | No |
 
 ---
 
 ## Gaps & Remediation
 
-### Gap 1: Remote agents can't read the vault
-**Agents affected:** Ultron, Jarvis, Hetzner
-**Impact:** These agents can't answer questions about project state, history, or context. Tony has to relay everything.
-**Remediation options:**
-1. **Obsidian REST API over Tailscale** — Expose port 27123/27124 on Tailscale (requires auth token management per agent)
-2. **Vault sync via Git** — Clone FactoryLM_OS on each remote host, `git pull` before reads
-3. **API proxy on Mac Mini** — Simple HTTP endpoint that proxies vault queries, single auth point
+### Gap 1: Remote agents can't read the vault — RESOLVED (2026-03-10)
+**Resolution:** Obsidian REST API exposed via Tailscale Serve. Remote agents access vault at `https://michaels-mac-mini.<tailnet>.ts.net/`. Git clones on remote nodes provide offline fallback.
 
-### Gap 2: No agent can write to the vault
-**Agents affected:** All (by policy in CLAUDE_TONY.md)
-**Impact:** Sections 02-09 stay empty forever. No agent can update project state, log incidents, or create weekly summaries.
-**Remediation options:**
-1. **Lift write restriction for specific agents** — Allow Tony or Claude Code to write to specific sections
-2. **Dedicated vault writer agent** — [[04_Agents/Herodotus/Herodotus|Herodotus]] was designed for this role but isn't deployed
-3. **Git-based writes** — Agents commit directly to FactoryLM_OS repo (like factorylm-bot does for commit notes)
+### Gap 2: No agent can write to the vault — RESOLVED (2026-03-10)
+**Resolution:** Tiered write policy implemented. Claude Code has full write access (01-09) via filesystem + MCP. Tony has scoped write access (01, 02, 06) via REST API tools (`obsidian_write`, `obsidian_append`, `obsidian_create_daily`). Remote agents request writes via Tony delegation. See [[CLAUDE_TONY]] for full policy.
 
 ### Gap 3: Tony's memory layers 2-5 not deployed
 **Impact:** Tony has no persistent memory beyond SOUL.md. Every session starts cold.

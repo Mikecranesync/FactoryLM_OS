@@ -132,6 +132,22 @@ Each location links to the other. When updating Tony's capabilities or behavior,
 
 ---
 
+## Write Policy (Tiered Access)
+
+Agent vault writes follow a tiered policy. Each agent has a defined scope:
+
+| Agent | Write Scope | Mechanism |
+|-------|-------------|-----------|
+| Claude Code (Macaroni) | Full vault 01-09 | Filesystem + MCP |
+| Tony Macaroni | 01_Daily, 02_Weekly, 06_Incidents | REST API (`obsidian_write`, `obsidian_append`, `obsidian_create_daily`) |
+| factorylm-bot | 10_Commit_Notes only | Git push (automated) |
+| Ultron, Jarvis, Hetzner | No direct write | Request via Tony delegation |
+
+### Tony Write Enforcement
+Tony's write tools (`obsidian_write`, `obsidian_append`, `obsidian_create_daily`) enforce folder scope at the tool level. Writes outside `01_Daily/`, `02_Weekly/`, or `06_Incidents/` are rejected with an error message. To write elsewhere, ask Claude Code or commit via Git.
+
+---
+
 ## FactoryLM Platform Context
 
 FactoryLM is an industrial IoT platform. Key components:
